@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwindcss": "tailwindcss -i static/tw/tailwind-input.css -o static/css/output.css --watch"
+}
+}
