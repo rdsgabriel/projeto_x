@@ -1,21 +1,18 @@
 package com.ophis.projectx.resource;
 
 import com.ophis.projectx.config.TokenService;
-import com.ophis.projectx.controller.UserController;
 import com.ophis.projectx.dto.AuthenticationDTO;
 import com.ophis.projectx.dto.LoginResponseDTO;
-import com.ophis.projectx.dto.UserDTO;
 import com.ophis.projectx.dto.UserInsertDTO;
 import com.ophis.projectx.entities.User;
+import com.ophis.projectx.service.UserService;
+import com.ophis.projectx.dto.UserDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -24,7 +21,7 @@ import java.net.URI;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthResource {
-    private final UserController service;
+    private final UserService service;
 
     private final AuthenticationManager authenticationManager;
 
@@ -46,5 +43,10 @@ public class AuthResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").
                 buildAndExpand(newDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(newDTO);
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "oi";
     }
 }

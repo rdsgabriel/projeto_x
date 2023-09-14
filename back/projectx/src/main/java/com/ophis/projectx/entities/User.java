@@ -1,17 +1,19 @@
 package com.ophis.projectx.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ophis.projectx.entities.enums.Roles;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
@@ -25,25 +27,33 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String username;
-    @Email
+
+    private String login;
+
     private String email;
 
+    private Roles role;
+
     private String password;
+
     private String imgUrl;
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthDay;
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        if (this.role == Roles.ADMIN)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
 
     @Override
     public String getPassword() {

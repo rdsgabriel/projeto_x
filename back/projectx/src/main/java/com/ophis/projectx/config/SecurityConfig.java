@@ -1,5 +1,6 @@
 package com.ophis.projectx.config;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +11,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,12 +31,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/login")).permitAll();
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/register")).permitAll();
+                    req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/profile/**")).hasRole("USER");
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .build();
     }
 
@@ -50,4 +48,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }

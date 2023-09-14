@@ -1,4 +1,4 @@
-package com.ophis.projectx.resource.expections;
+package com.ophis.projectx.resource.exceptions;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

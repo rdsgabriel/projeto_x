@@ -1,12 +1,12 @@
-package com.ophis.projectx.controller;
+package com.ophis.projectx.service;
 
-import com.ophis.projectx.controller.exceptions.DatabaseException;
-import com.ophis.projectx.dto.UserDTO;
 import com.ophis.projectx.dto.UserInsertDTO;
 import com.ophis.projectx.entities.User;
+import com.ophis.projectx.service.exceptions.DatabaseException;
+import com.ophis.projectx.dto.UserDTO;
 import com.ophis.projectx.mapper.UserMapper;
 import com.ophis.projectx.repository.UserRepository;
-import com.ophis.projectx.controller.exceptions.ResourceNotFoundException;
+import com.ophis.projectx.service.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserController {
+public class UserService {
 
     private final UserRepository repository;
 
@@ -28,7 +28,7 @@ public class UserController {
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
-        Optional<User> obj  = repository.findById(id);
+        Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return new UserDTO(entity);
     }
@@ -43,12 +43,13 @@ public class UserController {
 
     @Transactional
     public void delete(Long id) {
-       try {
-           repository.deleteById(id);
-       }catch (EmptyResultDataAccessException e){
-           throw new ResourceNotFoundException("Id not found");
-       }catch (DataIntegrityViolationException e) {
-           throw new DatabaseException("Integrity violation");
-       }
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id not found");
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
+        }
     }
+
 }

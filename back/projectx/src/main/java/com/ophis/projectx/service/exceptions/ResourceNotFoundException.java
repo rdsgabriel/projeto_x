@@ -1,4 +1,4 @@
-package com.ophis.projectx.controller.exceptions;
+package com.ophis.projectx.service.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String msg) {

@@ -1,4 +1,4 @@
-package com.ophis.projectx.controller.exceptions;
+package com.ophis.projectx.service.exceptions;
 
 public class DatabaseException extends RuntimeException {
     public DatabaseException(String msg){

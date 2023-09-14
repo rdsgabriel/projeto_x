@@ -1,7 +1,7 @@
-package com.ophis.projectx.resource.expections;
+package com.ophis.projectx.resource.exceptions;
 
-import com.ophis.projectx.controller.exceptions.DatabaseException;
-import com.ophis.projectx.controller.exceptions.ResourceNotFoundException;
+import com.ophis.projectx.service.exceptions.DatabaseException;
+import com.ophis.projectx.service.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,7 @@
 package com.ophis.projectx.dto;
 
-import com.ophis.projectx.controller.validation.UserInsertValid;
+import com.ophis.projectx.service.validation.PasswordValid;
+import com.ophis.projectx.service.validation.UserInsertValid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,10 +19,11 @@ public class UserInsertDTO extends UserDTO {
 
     @NotNull
     @Size(min = 8, max = 24)
+    @PasswordValid
     private String password;
 
     @NotBlank
     @Size(min = 6, max = 14)
-    private String username;
+    private String login;
 
 }

@@ -1,7 +1,7 @@
 package com.ophis.projectx.resource;
 
 import com.ophis.projectx.dto.UserDTO;
-import com.ophis.projectx.controller.UserController;
+import com.ophis.projectx.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @EnableAutoConfiguration
 public class UserResource {
 
-    private final UserController service;
+    private final UserService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id){

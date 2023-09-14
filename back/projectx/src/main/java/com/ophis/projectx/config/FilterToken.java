@@ -1,5 +1,6 @@
 package com.ophis.projectx.config;
 
+
 import com.ophis.projectx.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class FilterToken extends OncePerRequestFilter {
+
     private final TokenService tokenService;
 
     private final UserRepository repository;
@@ -29,7 +31,7 @@ public class FilterToken extends OncePerRequestFilter {
 
         if (token != null) {
             var login = tokenService.validateToken(token);
-            UserDetails user = repository.findByUsername(login);
+            UserDetails user = repository.findByLogin(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
