@@ -1,5 +1,6 @@
 package com.ophis.projectx.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ophis.projectx.entities.Comments;
 import com.ophis.projectx.entities.Post;
 import com.ophis.projectx.entities.User;
@@ -24,10 +25,9 @@ public class PostDTO {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
     private UserDTO user;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     private String imgPost;
