@@ -2,6 +2,7 @@ package com.ophis.projectx.service;
 
 import com.ophis.projectx.dto.UserInsertDTO;
 import com.ophis.projectx.entities.User;
+import com.ophis.projectx.repository.DozerMapper;
 import com.ophis.projectx.service.exceptions.DatabaseException;
 import com.ophis.projectx.dto.UserDTO;
 import com.ophis.projectx.mapper.UserMapper;
@@ -10,6 +11,8 @@ import com.ophis.projectx.service.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

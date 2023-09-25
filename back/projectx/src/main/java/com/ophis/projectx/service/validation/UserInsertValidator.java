@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserInsertDTO> {
 
@@ -26,14 +27,14 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
     public boolean isValid(UserInsertDTO userInsertDTO, ConstraintValidatorContext constraintValidatorContext) {
         List<FieldMessage> list = new ArrayList<>();
 
-        User user = repository.findByEmail(userInsertDTO.getEmail());
-        User name = repository.findByName(userInsertDTO.getName());
+        Optional<User> user = repository.findByEmail(userInsertDTO.getEmail());
+        Optional<User> name = repository.findByName(userInsertDTO.getName());
         UserDetails login = repository.findByLogin(userInsertDTO.getLogin());
 
-        if (user != null) {
+        if (user.isPresent()) {
             list.add(new FieldMessage("email", "Email exist"));
         }
-        if(name != null) {
+        if(name.isPresent()) {
             list.add(new FieldMessage("name", "Name exist"));
         }
         if (login != null) {
