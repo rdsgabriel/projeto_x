@@ -1,4 +1,4 @@
-package com.ophis.projectx.config;
+package com.ophis.projectx.config.security;
 
 
 import com.ophis.projectx.repository.UserRepository;

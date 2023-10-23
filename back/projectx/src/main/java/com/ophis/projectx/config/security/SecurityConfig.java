@@ -1,4 +1,4 @@
-package com.ophis.projectx.config;
+package com.ophis.projectx.config.security;
 
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +35,7 @@ public class SecurityConfig {
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(Customizer.withDefaults())
                 .oauth2Login(Customizer.withDefaults())
                 .build();
     }
