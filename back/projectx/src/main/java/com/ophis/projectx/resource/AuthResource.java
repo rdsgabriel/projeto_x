@@ -1,12 +1,15 @@
 package com.ophis.projectx.resource;
 
-import com.ophis.projectx.config.TokenService;
+import com.ophis.projectx.config.security.TokenService;
 import com.ophis.projectx.dto.AuthenticationDTO;
 import com.ophis.projectx.dto.LoginResponseDTO;
 import com.ophis.projectx.dto.UserInsertDTO;
 import com.ophis.projectx.entities.User;
 import com.ophis.projectx.service.UserService;
 import com.ophis.projectx.dto.UserDTO;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,12 @@ public class AuthResource {
 
     private final TokenService tokenService;
 
+    @Operation(responses = {
+            @ApiResponse(
+                    description = "Success",
+                    responseCode = "200"
+            )
+    })
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
@@ -45,8 +54,9 @@ public class AuthResource {
         return ResponseEntity.created(uri).body(newDTO);
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/hello-world")
+    @Hidden
     public String hello() {
-        return "oi";
+        return "Hello World!";
     }
 }
