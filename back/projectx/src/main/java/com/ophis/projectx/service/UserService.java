@@ -1,18 +1,18 @@
 package com.ophis.projectx.service;
 
+import com.ophis.projectx.dto.UserDTO;
 import com.ophis.projectx.dto.UserInsertDTO;
 import com.ophis.projectx.entities.User;
-import com.ophis.projectx.repository.DozerMapper;
-import com.ophis.projectx.service.exceptions.DatabaseException;
-import com.ophis.projectx.dto.UserDTO;
+import com.ophis.projectx.entities.enums.AuthProvider;
+import com.ophis.projectx.entities.enums.Roles;
 import com.ophis.projectx.mapper.UserMapper;
+import com.ophis.projectx.producers.UserProducer;
 import com.ophis.projectx.repository.UserRepository;
+import com.ophis.projectx.service.exceptions.DatabaseException;
 import com.ophis.projectx.service.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +24,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository repository;
-
     private final UserMapper mapper;
-
+    private final UserProducer userProducer;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
@@ -41,6 +40,9 @@ public class UserService {
         String encodedPassword = this.passwordEncoder.encode(dto.getPassword());
         User save = repository.save(mapper.toEntityInsert(dto));
         save.setPassword(encodedPassword);
+        save.setRole(Roles.USER);
+        save.setProvider(AuthProvider.local);
+        userProducer.publishMessageEmail(save);
         return mapper.toDTO(save);
     }
 
@@ -54,5 +56,4 @@ public class UserService {
             throw new DatabaseException("Integrity violation");
         }
     }
-
 }

@@ -1,12 +1,10 @@
 package com.ophis.projectx.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ophis.projectx.entities.enums.AuthProvider;
 import com.ophis.projectx.entities.enums.Roles;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +17,8 @@ import java.util.List;
 @Table(name = "tb_user")
 @Getter
 @Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
@@ -42,6 +42,10 @@ public class User implements UserDetails {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthDay;
 
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

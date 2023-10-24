@@ -1,6 +1,7 @@
 package com.ophis.projectx.config.security;
 
 
+import com.ophis.projectx.config.security.oauth2.OAuth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,8 @@ public class SecurityConfig {
 
     private final FilterToken filter;
 
+    private final OAuth2Service oauth2UserService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -36,7 +39,9 @@ public class SecurityConfig {
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(Customizer.withDefaults())
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(infoEndpoint ->
+                                infoEndpoint.userService(oauth2UserService)))
                 .build();
     }
 
