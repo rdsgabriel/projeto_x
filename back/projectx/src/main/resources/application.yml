@@ -4,15 +4,15 @@ spring:
       client:
         registration:
           google:
-            clientId: 311036334166-42d3dbjka3ovk2qqqfbjqrdtsdmrvooh.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: <GOOGLE ID>
+            clientSecret: <GOOGLE SECRET>
             redirectUri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope:
               - email
               - profile
           github:
-            clientId: 56c8cb74bd1a56c7c638
-            clientSecret: 1000d78fdad8d0cdc7ae36c2241a089caf532add
+            clientId: <GITHUB ID>
+            clientSecret: <GITHUB SECRET>
             redirectUri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope:
               - user:email
