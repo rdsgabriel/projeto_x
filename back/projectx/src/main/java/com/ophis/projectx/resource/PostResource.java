@@ -12,27 +12,31 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
 @EnableAutoConfiguration
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Post", description = "Create a tweet, delete, update")
+@Tag(name = "Criar tweet", description = "Cria post, deleta post e modifica")
+
 public class PostResource {
 
     private final PostService service;
 
     @PostMapping("/tweet")
     @Operation(
-            summary = "Post a tweet",
-            description = "Create a post in timeline, you can delete the fields USER and CREATE_AT"
-
+            summary = "Postar um tweet",
+            description = "O usuario cria uma tweet salvando diretamente no banco de dados, a parte de 'user:{}'" +
+                    "pode ser descartada na hora de chamar a requisição POST, 'user:{}' é gerado de acordo com as informações quem chamou requisição. "
     )
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO dto, Authentication authentication) {
         PostDTO newDTO = service.createPost((User) authentication.getPrincipal(), dto);
@@ -42,7 +46,12 @@ public class PostResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PostDTO> deletePost(@PathVariable Long id){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(
+            summary = "DELETE TWEET",
+            description = "Delete o  tweet ultizando o ID, apenas ROLE_ADMIN tem permissão para deletar."
+    )
+    public ResponseEntity<PostDTO> deleteTweet(@PathVariable Long id){
         service.deletePostById(id);
         return ResponseEntity.ok().build();
     }

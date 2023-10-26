@@ -30,13 +30,18 @@ public class AuthResource {
 
     private final TokenService tokenService;
 
-    @Operation(responses = {
+    @Operation(
+            summary = "Login Usuario",
+            description = "Login via requisição POST recebendo Login e password",
+
+            responses = {
+
             @ApiResponse(
                     description = "Success",
                     responseCode = "200"
             )
     })
-    @PostMapping("/login")
+    @PostMapping( value = { "/", "/login" })
     public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
@@ -46,6 +51,18 @@ public class AuthResource {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
+    @Operation(
+            summary = "Registrar Usuario",
+            description = "Register via requisição POST recebendo os paramentros name(Obrigatorio), login(Obrigatorio e unico)," +
+                    "password(Obrigatorio), birthDay(opcional) e imgURL",
+
+            responses = {
+
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    )
+            })
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDTO = service.insert(dto);
@@ -53,6 +70,7 @@ public class AuthResource {
                 buildAndExpand(newDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(newDTO);
     }
+
 
     @GetMapping("/hello-world")
     @Hidden
