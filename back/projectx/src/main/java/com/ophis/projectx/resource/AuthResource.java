@@ -9,7 +9,10 @@ import com.ophis.projectx.service.UserService;
 import com.ophis.projectx.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Registrar usuario", description = "Registre um usuario")
 public class AuthResource {
     private final UserService service;
 
@@ -32,16 +36,15 @@ public class AuthResource {
 
     @Operation(
             summary = "Login Usuario",
-            description = "Login via requisição POST recebendo Login e password",
-
-            responses = {
-
+            description = "Login via requisição POST recebendo Login e password")
+    @ApiResponses(value = {
             @ApiResponse(
-                    description = "Success",
-                    responseCode = "200"
-            )
+                    description = "Sucesso", responseCode = "200"
+            ),
+            @ApiResponse(responseCode = "400" ,description = "Email ou login já registrado")
     })
-    @PostMapping( value = { "/", "/login" })
+    @Hidden
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
@@ -54,15 +57,12 @@ public class AuthResource {
     @Operation(
             summary = "Registrar Usuario",
             description = "Register via requisição POST recebendo os paramentros name(Obrigatorio), login(Obrigatorio e unico)," +
-                    "password(Obrigatorio), birthDay(opcional) e imgURL",
-
-            responses = {
-
-                    @ApiResponse(
-                            description = "Success",
-                            responseCode = "200"
-                    )
-            })
+                    "password(Obrigatorio), birthDay(opcional) e imgURL")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    description = "Sucesso", responseCode = "200"),
+            @ApiResponse(responseCode = "400" ,description = "Email ou login já registrado")
+    })
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDTO = service.insert(dto);
