@@ -27,15 +27,11 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
     public boolean isValid(UserInsertDTO userInsertDTO, ConstraintValidatorContext constraintValidatorContext) {
         List<FieldMessage> list = new ArrayList<>();
 
-        Optional<User> user = repository.findByEmail(userInsertDTO.getEmail());
-        Optional<User> name = repository.findByName(userInsertDTO.getName());
+        Optional<User> user = Optional.ofNullable(repository.findByEmail(userInsertDTO.getEmail()));
         UserDetails login = repository.findByLogin(userInsertDTO.getLogin());
 
         if (user.isPresent()) {
-            list.add(new FieldMessage("email", "Email exist"));
-        }
-        if(name.isPresent()) {
-            list.add(new FieldMessage("name", "Name exist"));
+            list.add(new FieldMessage("email", "Email invalid or existent"));
         }
         if (login != null) {
             list.add(new FieldMessage("login", "Login invalid or existent"));

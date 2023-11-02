@@ -2,7 +2,6 @@ package com.ophis.projectx.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ophis.projectx.entities.User;
-import com.ophis.projectx.entities.enums.Roles;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.Date;
 
@@ -34,8 +34,7 @@ public class UserDTO {
     @NotBlank
     private String email;
 
-    private Roles role;
-
+    @URL()
     private String imgUrl;
 
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -48,6 +47,5 @@ public class UserDTO {
         login = entity.getLogin();
         imgUrl = entity.getImgUrl();
         birthDay = entity.getBirthDay();
-        role = entity.getRole();
     }
 }
