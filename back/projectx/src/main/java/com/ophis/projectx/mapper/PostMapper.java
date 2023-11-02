@@ -10,4 +10,6 @@ public interface PostMapper {
 
     Post toEntity(PostDTO dto);
 
+    Post toEntityUpdate(Post updateDTO);
+
 }
