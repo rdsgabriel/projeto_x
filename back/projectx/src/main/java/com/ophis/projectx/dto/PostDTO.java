@@ -1,15 +1,18 @@
 package com.ophis.projectx.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ophis.projectx.entities.Comments;
 import com.ophis.projectx.entities.Post;
-import com.ophis.projectx.entities.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +27,8 @@ public class PostDTO {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
+    @NotNull
+    @Size(min = 1, max = 500)
     private String body;
 
     private UserDTO user;
@@ -31,6 +36,7 @@ public class PostDTO {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @URL
     private String imgPost;
 
     public PostDTO(Post entity){
