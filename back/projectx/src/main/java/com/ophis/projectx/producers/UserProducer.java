@@ -16,15 +16,13 @@ public class UserProducer {
     @Value("${broker.queue.email.name}")
     private String routingKey;
 
-    @Value("${broker.welcome.msg}")
-    private String welcome;
-
     public void  publishMessageEmail(User user){
         var emailDto = new EmailDTO();
         emailDto.setId(user.getId());
         emailDto.setEmailTo(user.getEmail());
         emailDto.setSubject("Cadastro Realizado com sucesso.");
-        emailDto.setText(user.getName() + welcome);
+        emailDto.setText(user.getName() + "Obrigado por se registrar! " +
+                "Bem-vindo ao nosso sistema. Estamos felizes por você fazer parte da nossa comunidade!");
 
         template.convertAndSend("", routingKey, emailDto);
     }
