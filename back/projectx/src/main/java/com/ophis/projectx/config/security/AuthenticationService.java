@@ -1,6 +1,7 @@
 package com.ophis.projectx.config.security;
 
 
+import com.ophis.projectx.entities.User;
 import com.ophis.projectx.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,4 +20,5 @@ public class AuthenticationService implements UserDetailsService {
             throws UsernameNotFoundException {
         return repository.findByLogin(username);
     }
+
 }

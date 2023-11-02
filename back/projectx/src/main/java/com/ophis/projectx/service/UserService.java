@@ -1,7 +1,6 @@
 package com.ophis.projectx.service;
 
-import com.ophis.projectx.dto.UserDTO;
-import com.ophis.projectx.dto.UserInsertDTO;
+import com.ophis.projectx.dto.*;
 import com.ophis.projectx.entities.User;
 import com.ophis.projectx.entities.enums.AuthProvider;
 import com.ophis.projectx.entities.enums.Roles;
@@ -13,10 +12,12 @@ import com.ophis.projectx.service.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +29,6 @@ public class UserService {
     private final UserProducer userProducer;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -56,4 +56,5 @@ public class UserService {
             throw new DatabaseException("Integrity violation");
         }
     }
+
 }
