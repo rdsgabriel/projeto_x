@@ -1,8 +1,13 @@
 package com.ophis.projectx.resource;
 
 import com.ophis.projectx.dto.UserDTO;
+import com.ophis.projectx.resource.exceptions.StandardError;
 import com.ophis.projectx.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +42,14 @@ public class UserResource {
     @Operation(
             description = "Delete o user ultizando o ID, apenas ROLE_ADMIN tem permissão para deletar."
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    description = "Sucess", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(
+                    responseCode = "403", description = "Access Denied",
+                    content = @Content(schema = @Schema(implementation = StandardError.class))
+            )
+    })
     public ResponseEntity<UserDTO> deleteUser(@PathVariable Long id){
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

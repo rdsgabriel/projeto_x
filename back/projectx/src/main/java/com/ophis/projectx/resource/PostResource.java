@@ -1,8 +1,13 @@
 package com.ophis.projectx.resource;
 
 import com.ophis.projectx.dto.PostDTO;
+import com.ophis.projectx.resource.exceptions.StandardError;
 import com.ophis.projectx.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -44,6 +49,14 @@ public class PostResource {
             summary = "DELETE TWEET",
             description = "Delete o  tweet ultizando o ID, apenas ROLE_ADMIN tem permissão para deletar."
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    description = "Sucess", responseCode = "200", content = @Content(schema = @Schema(implementation = PostDTO.class))),
+            @ApiResponse(
+                    responseCode = "403", description = "Access Denied",
+                    content = @Content(schema = @Schema(implementation = StandardError.class))
+            )
+    })
     public ResponseEntity<PostDTO> deleteTweet(@PathVariable Long id){
         service.deletePostById(id);
         return ResponseEntity.ok().build();
@@ -55,6 +68,14 @@ public class PostResource {
             description = "O usuario edita o seu post salvando diretamente no banco de dados, a parte de 'user:{}'" +
                     "pode ser descartada na hora de chamar a requisição PUT, 'user:{}' é gerado de acordo com as informações do user que a chamou requisição. "
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    description = "Sucess", responseCode = "200", content = @Content(schema = @Schema(implementation = PostDTO.class))),
+            @ApiResponse(
+                    responseCode = "403", description = "Access Denied",
+                    content = @Content(schema = @Schema(implementation = StandardError.class))
+            )
+    })
     public ResponseEntity<Object> updateTweet(@PathVariable Long id,
                                               @RequestBody @Valid PostDTO tweet) throws Exception
     {

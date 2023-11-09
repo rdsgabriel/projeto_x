@@ -3,13 +3,14 @@ package com.ophis.projectx.resource;
 import com.ophis.projectx.config.security.TokenService;
 import com.ophis.projectx.dto.AuthenticationDTO;
 import com.ophis.projectx.dto.LoginResponseDTO;
+import com.ophis.projectx.dto.UserDTO;
 import com.ophis.projectx.dto.UserInsertDTO;
 import com.ophis.projectx.entities.User;
 import com.ophis.projectx.service.UserService;
-import com.ophis.projectx.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,8 +61,7 @@ public class AuthResource {
                     "password(Obrigatorio), birthDay(opcional) e imgURL")
     @ApiResponses(value = {
             @ApiResponse(
-                    description = "Sucesso", responseCode = "200"),
-            @ApiResponse(responseCode = "400" ,description = "Email ou login já registrado")
+                    description = "Sucess", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class))),
     })
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody UserInsertDTO dto) {

@@ -2,6 +2,7 @@ package com.ophis.projectx.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ophis.projectx.entities.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,21 +24,27 @@ public class UserDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(example = "1")
     private Long id;
 
     @NotBlank
+    @Schema(example = "Name")
     private String name;
 
+    @Schema(example = "newUser")
     private String login;
 
     @Email
     @NotBlank
+    @Schema(example = "email@email.com")
     private String email;
 
-    @URL()
+    @URL
+    @Schema(example = "https://img.png")
     private String imgUrl;
 
     @JsonFormat(pattern="yyyy-MM-dd")
+    @Schema(example = "2004-07-03")
     private Date birthDay;
 
     public UserDTO(User entity) {

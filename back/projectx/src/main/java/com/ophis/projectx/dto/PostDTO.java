@@ -2,6 +2,7 @@ package com.ophis.projectx.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ophis.projectx.entities.Post;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,17 +27,19 @@ public class PostDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
     @NotNull
     @Size(min = 1, max = 500)
+    @Schema(example = "Find your dreams come true. And I wonder if you know")
     private String body;
 
+    @NotNull
     private UserDTO user;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @URL
+    @Schema(example = "https://img.png")
     private String imgPost;
 
     public PostDTO(Post entity){
