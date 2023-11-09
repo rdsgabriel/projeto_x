@@ -35,13 +35,16 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/register")).permitAll();
-                    req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/login")).permitAll();
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/profile/{id}")).permitAll();
                     req.anyRequest().authenticated();
                 })
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form
+                        .failureUrl("/login")
+                        .defaultSuccessUrl("/swagger-ui.html"))
                 .formLogin(Customizer.withDefaults())
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/swagger-ui.html")
                         .userInfoEndpoint(infoEndpoint ->
                                 infoEndpoint.userService(oauth2UserService)))
                 .build();
@@ -51,7 +54,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
