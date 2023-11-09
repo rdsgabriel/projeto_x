@@ -3,7 +3,6 @@ package com.ophis.projectx.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ophis.projectx.entities.enums.AuthProvider;
 import com.ophis.projectx.entities.enums.Roles;
-import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
