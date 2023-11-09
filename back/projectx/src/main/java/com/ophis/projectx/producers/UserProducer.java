@@ -21,7 +21,7 @@ public class UserProducer {
         emailDto.setId(user.getId());
         emailDto.setEmailTo(user.getEmail());
         emailDto.setSubject("Cadastro Realizado com sucesso.");
-        emailDto.setText(user.getName() + "Obrigado por se registrar! " +
+        emailDto.setText(user.getName() + " Obrigado por se registrar! " + "\n"+
                 "Bem-vindo ao nosso sistema. Estamos felizes por você fazer parte da nossa comunidade!");
 
         template.convertAndSend("", routingKey, emailDto);
