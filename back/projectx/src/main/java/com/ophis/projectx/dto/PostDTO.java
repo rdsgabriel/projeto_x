@@ -1,9 +1,7 @@
 package com.ophis.projectx.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ophis.projectx.entities.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,11 +39,4 @@ public class PostDTO {
     @URL
     @Schema(example = "https://img.png")
     private String imgPost;
-
-    public PostDTO(Post entity){
-        id = entity.getId();
-        body = entity.getBody();
-        createdAt = entity.getCreatedAt();
-        imgPost = entity.getImgPost();
-    }
 }
